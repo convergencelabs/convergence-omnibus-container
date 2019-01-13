@@ -1,0 +1,12 @@
+{
+  "name": "@convergence/admin-console",
+  "version": "1.0.0-SNAPSHOT",
+  "description": "The Convergence Admin Console.",
+  "author": "Convergence Labs, Inc.",
+  "homepage": "http://www.convergencelabs.com",
+  "private": true,
+  "dependencies": {
+    "@convergence/admin-console": "^1.0.0-SNAPSHOT"
+  },
+  "devDependencies": {}
+}
