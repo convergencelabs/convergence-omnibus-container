@@ -3,7 +3,7 @@ import java.io.File
 
 val fetchServerNode = TaskKey[Unit](
   "fetchServerNode",
-  "Copy the cnvergence-server-node universal package to the docker-build dir")
+  "Copy the convergence-server-node universal package to the docker-build dir")
 
 ThisBuild / organization := "io.convergence"
 ThisBuild / version      := "1.0.0-SNAPSHOT"
