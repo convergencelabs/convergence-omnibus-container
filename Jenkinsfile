@@ -24,6 +24,8 @@ nodePod { label ->
 
 sbtPod { label ->
   runInNode(label) {
+    injectIvyCredentials();
+    
     stage('Fetch Server') {
       container('sbt') {
         sh 'sbt fetchServerNode'
