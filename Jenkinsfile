@@ -18,10 +18,6 @@ nodePod { label ->
       stage('Copy Admin Console') {
         sh 'cp -a node_modules/@convergence-internal/admin-console/www/ docker-build/admin-console'
       }
-
-      stage('Publish') {
-        sh 'npm publish dist-internal'
-      }
     }
   }
 }
