@@ -24,10 +24,10 @@ nodePod { label ->
 
 sbtPod { label ->
   runInNode(label) {
-    injectIvyCredentials();
-    
+  
     stage('Fetch Server') {
       container('sbt') {
+        injectIvyCredentials();
         sh 'sbt fetchServerNode'
       }
     }
