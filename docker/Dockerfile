@@ -5,17 +5,13 @@ MAINTAINER Convergence Labs, Inc (sysadmin@convergencelabs.com)
 RUN apk add --update supervisor tar curl nginx bash && \
     rm  -rf /tmp/* /var/cache/apk/*
 
-# Convergence
-COPY convergence-server-node.tgz /tmp/convergence-server-node.tgz
-RUN mkdir /convergence && \
-    tar -zxvf /tmp/convergence-server-node.tgz -C /convergence --strip-components=1
-COPY log4j2.xml /convergence/etc/log4j2.xml
-COPY convergence-server.conf /convergence/etc/convergence-server.conf
+##
+## Orient DB
+##
 
-# Orient DB
-ENV ORIENTDB_VERSION 3.0.13
-ENV ORIENTDB_DOWNLOAD_MD5 12b955c069aeefd8697891d2310c7520
-ENV ORIENTDB_DOWNLOAD_SHA1 35bc1cdfa79d6aa133cdcdffe72a3ed9f7a39cde
+ENV ORIENTDB_VERSION 3.0.15
+ENV ORIENTDB_DOWNLOAD_MD5 ae67b025b5799b55248078cd80b8c9be
+ENV ORIENTDB_DOWNLOAD_SHA1 93c97ea94c3c9beff8fa075011374be34c6e5c2b
 
 ENV ORIENTDB_DOWNLOAD_URL http://central.maven.org/maven2/com/orientechnologies/orientdb-community/$ORIENTDB_VERSION/orientdb-community-$ORIENTDB_VERSION.tar.gz
 
@@ -30,7 +26,10 @@ RUN mkdir /orientdb && \
 
 COPY orientdb-server-config.xml /orientdb/config/
 
-# Proxy
+##
+## Proxy
+##
+
 RUN adduser -D -g 'www' www  && \
     mkdir /www && \
     chown -R www:www /var/lib/nginx && \
@@ -42,7 +41,18 @@ COPY nginx.conf /etc/nginx/nginx.conf
 COPY supservisord.conf /etc/supervisord.conf
 
 COPY admin-console /www/console
-COPY admin-console-config.js /www/console/app-config.js
+COPY convergence-admin-console.config.js /www/console/convergence-admin-console.config.js
+
+##
+## Convergence
+##
+
+COPY convergence-server-node.tgz /tmp/convergence-server-node.tgz
+RUN mkdir /convergence && \
+    tar -zxvf /tmp/convergence-server-node.tgz -C /convergence --strip-components=1
+COPY log4j2.xml /convergence/etc/log4j2.xml
+COPY convergence-server.conf /convergence/etc/convergence-server.conf
+
 
 EXPOSE 80
 EXPOSE 2480
