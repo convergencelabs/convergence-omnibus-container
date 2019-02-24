@@ -26,7 +26,7 @@ sbtPod { label ->
   runInNode(label) {
     stage('Fetch Server') {
       container('sbt') {
-        sd 'sbt fetchServerNode'
+        sh 'sbt fetchServerNode'
       }
     }
 
