@@ -6,7 +6,8 @@
   "homepage": "http://www.convergencelabs.com",
   "private": true,
   "dependencies": {
-    "@convergence-internal/admin-console": "^1.0.0-SNAPSHOT"
+    "@convergence-internal/admin-console": "^1.0.0-SNAPSHOT",
+    "@convergence-internal/convergence": "^1.0.0-SNAPSHOT"
   },
   "devDependencies": {}
 }

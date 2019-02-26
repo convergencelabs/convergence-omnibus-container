@@ -18,13 +18,21 @@ nodePod { label ->
       stage('Copy Admin Console') {
         sh 'cp -a node_modules/@convergence-internal/admin-console/www/ docker-build/admin-console'
       }
+
+      stage('Copy Client') {
+        sh '''
+        mkdir docker-build/client
+        cp -a node_modules/@convergence-internal/convergence/umd/convergence-all.min.js docker-build/client
+        cp -a node_modules/@convergence-internal/convergence/umd/convergence.min.js docker-build/client
+        '''
+      }
     }
   }
 }
 
 sbtPod { label ->
   runInNode(label) {
-  
+
     stage('Fetch Server') {
       container('sbt') {
         injectIvyCredentials();

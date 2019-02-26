@@ -40,11 +40,20 @@ COPY nginx.conf /etc/nginx/nginx.conf
 
 COPY supservisord.conf /etc/supervisord.conf
 
+##
+## Convergence Admin console
+##
+
 COPY admin-console /www/console
 COPY convergence-admin-console.config.js /www/console/convergence-admin-console.config.js
 
 ##
-## Convergence
+## Convergence Client
+##
+COPY client /www/client
+
+##
+## Convergence Server
 ##
 
 COPY convergence-server-node.tgz /tmp/convergence-server-node.tgz
