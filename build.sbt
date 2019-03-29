@@ -6,15 +6,15 @@ val fetchServerNode = TaskKey[Unit](
   "Copy the convergence-server-node universal package to the docker-build dir")
 
 ThisBuild / organization := "io.convergence"
-ThisBuild / version      := "1.0.0-SNAPSHOT"
+ThisBuild / version      := "1.0.0-rc.1"
 ThisBuild / scalaVersion := "2.12.8"
-ThisBuild / name         := "convergence-uber-container"
+ThisBuild / name         := "convergence-de-container"
 
 lazy val convergenceUberContainer = (project in file("."))
   .settings(
     resolvers += "Convergence Repo" at "https://nexus.dev.int.convergencelabs.tech/repository/maven-all/",
     libraryDependencies ++= Seq (
-      "com.convergencelabs" % "convergence-server-node" % "1.0.0-SNAPSHOT" artifacts(Artifact("convergence-server-node", "tgz", "tgz")) from "https://nexus.dev.int.convergencelabs.tech/repository/maven-convergence-snapshots/com/convergencelabs/convergence-server-node/1.0.0-SNAPSHOT/convergence-server-node-1.0.0-SNAPSHOT.tgz"
+      "com.convergencelabs" % "convergence-server-node" % "1.0.0-rc.1" artifacts(Artifact("convergence-server-node", "tgz", "tgz")) from "https://nexus.dev.int.convergencelabs.tech/repository/maven-convergence-releases/com/convergencelabs/convergence-server-node/1.0.0-rc.1/convergence-server-node-1.0.0-rc.1.tgz"
     ),
     fetchServerNode := {
       val dockerBuildDir = new File("docker-build");
