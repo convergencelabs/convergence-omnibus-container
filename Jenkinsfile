@@ -1,64 +1,74 @@
-nodePod { label ->
-  runInNode(label) {
-    container('node') {
-      npmLogin()
+wrapAndNotify() {
+  ansiColor('xterm') {
 
-      stage('NPM Install') {
-        sh 'npm install'
+
+  nodePod { label ->
+    node(label) {
+      stage("Checkout") {
+        def scmVars = checkout scm
+        env.GIT_COMMIT = scmVars.GIT_COMMIT
       }
 
-      stage('Perpare Docker Build') {
-        sh '''
-        cp -a docker docker-build
-        '''
-      }
+      container('node') {
+        npmLogin()
 
-      stage('Copy Admin Console') {
-        sh 'cp -a node_modules/@convergence-internal/admin-console/www/ docker-build/admin-console'
-      }
+        stage('NPM Install') {
+          sh 'npm install'
+        }
 
-      stage('Copy Client') {
-        sh '''
-        mkdir docker-build/client
-        cp -a node_modules/@convergence/convergence/convergence.global.js docker-build/client/convergence.js
-        cp -a node_modules/@convergence/convergence/convergence.amd.js docker-build/client/convergence.amd.js
-        cp -a node_modules/rxjs/bundles/* docker-build/client/
-        '''
-      }
+        stage('Perpare Docker Build') {
+          sh '''
+          cp -a docker docker-build
+          '''
+        }
 
-      stage('Copy API') {
-        sh '''
-        cp -a node_modules/@convergence/convergence/docs docker-build/api
-        '''
-      }
-    }
-  }
-}
+        stage('Copy Admin Console') {
+          sh 'cp -a node_modules/@convergence-internal/admin-console/www/ docker-build/admin-console'
+        }
 
-sbtPod { label ->
-  runInNode(label) {
+        stage('Copy Client') {
+          sh '''
+          mkdir docker-build/client
+          cp -a node_modules/@convergence/convergence/convergence.global.js docker-build/client/convergence.js
+          cp -a node_modules/@convergence/convergence/convergence.amd.js docker-build/client/convergence.amd.js
+          cp -a node_modules/rxjs/bundles/* docker-build/client/
+          '''
+        }
 
-    stage('Fetch Server') {
-      container('sbt') {
-        injectIvyCredentials();
-        sh 'sbt fetchServerNode'
-      }
-    }
-
-    def containerName = "convergence-de"
-    stage('Docker Build') {
-      container('docker') {
-        sh 'ls -al'
-        dir('docker-build') {
-          sh 'ls -al'
-          dockerBuild(containerName)
+        stage('Copy API') {
+          sh '''
+          cp -a node_modules/@convergence/convergence/docs docker-build/api
+          '''
         }
       }
     }
+  }
 
-    stage('Docker Push') {
-      container('docker') {
-        dockerPush(containerName, ["latest", env.GIT_COMMIT])
+  sbtPod { label ->
+    node(label) {
+
+      stage('Fetch Server') {
+        container('sbt') {
+          injectIvyCredentials();
+          sh 'sbt fetchServerNode'
+        }
+      }
+
+      def containerName = "convergence-de"
+      stage('Docker Build') {
+        container('docker') {
+          sh 'ls -al'
+          dir('docker-build') {
+            sh 'ls -al'
+            dockerBuild(containerName)
+          }
+        }
+      }
+
+      stage('Docker Push') {
+        container('docker') {
+          dockerPush(containerName, ["latest", env.GIT_COMMIT])
+        }
       }
     }
   }
