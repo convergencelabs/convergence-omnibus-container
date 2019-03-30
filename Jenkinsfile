@@ -31,29 +31,29 @@ sbtNodePod { label ->
         cp -a node_modules/@convergence/convergence/docs docker-build/api
         '''
       }
+    }
 
-      stage('Fetch Server') {
-        container('sbt') {
-          injectIvyCredentials();
-          sh 'sbt fetchServerNode'
-        }
+    stage('Fetch Server') {
+      container('sbt') {
+        injectIvyCredentials();
+        sh 'sbt fetchServerNode'
       }
+    }
 
-      def containerName = "convergence-de"
-      stage('Docker Build') {
-        container('docker') {
+    def containerName = "convergence-de"
+    stage('Docker Build') {
+      container('docker') {
+        sh 'ls -al'
+        dir('docker-build') {
           sh 'ls -al'
-          dir('docker-build') {
-            sh 'ls -al'
-            dockerBuild(containerName)
-          }
+          dockerBuild(containerName)
         }
       }
+    }
 
-      stage('Docker Push') {
-        container('docker') {
-          dockerPush(containerName, ["latest", env.GIT_COMMIT])
-        }
+    stage('Docker Push') {
+      container('docker') {
+        dockerPush(containerName, ["latest", env.GIT_COMMIT])
       }
     }
   }
