@@ -48,7 +48,9 @@ sbtPod { label ->
     def containerName = "convergence-de"
     stage('Docker Build') {
       container('docker') {
+        sh 'ls -al'
         dir('docker-build') {
+          sh 'ls -al'
           dockerBuild(containerName)
         }
       }
