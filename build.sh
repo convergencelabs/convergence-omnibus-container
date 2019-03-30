@@ -13,6 +13,8 @@ cp -a node_modules/@convergence/convergence/convergence.global.js docker-build/c
 cp -a node_modules/@convergence/convergence/convergence.amd.js docker-build/client/convergence.amd.js
 cp -a node_modules/rxjs/bundles/* docker-build/client/
 
+cp -a node_modules/@convergence/convergence/docs docker-build/api
+
 sbt fetchServerNode
 
 docker build -t convergencelabs/convergence-de docker-build

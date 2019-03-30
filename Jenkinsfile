@@ -22,8 +22,15 @@ nodePod { label ->
       stage('Copy Client') {
         sh '''
         mkdir docker-build/client
-        cp -a node_modules/@convergence-internal/convergence/umd/convergence-all.min.js docker-build/client
-        cp -a node_modules/@convergence-internal/convergence/umd/convergence.min.js docker-build/client
+        cp -a node_modules/@convergence/convergence/convergence.global.js docker-build/client/convergence.js
+        cp -a node_modules/@convergence/convergence/convergence.amd.js docker-build/client/convergence.amd.js
+        cp -a node_modules/rxjs/bundles/* docker-build/client/
+        '''
+      }
+
+      stage('Copy API') {
+        sh '''
+        cp -a node_modules/@convergence/convergence/docs docker-build/api
         '''
       }
     }

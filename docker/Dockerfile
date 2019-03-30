@@ -43,7 +43,6 @@ COPY supservisord.conf /etc/supervisord.conf
 ##
 ## Convergence Admin console
 ##
-
 COPY admin-console /www/console
 COPY convergence-admin-console.config.js /www/console/convergence-admin-console.config.js
 
@@ -51,6 +50,11 @@ COPY convergence-admin-console.config.js /www/console/convergence-admin-console.
 ## Convergence Client
 ##
 COPY client /www/client
+
+##
+## Convergence Client API
+##
+COPY api /www/api
 
 ##
 ## Convergence Server
