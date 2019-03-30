@@ -5,10 +5,16 @@ MAINTAINER Convergence Labs, Inc (sysadmin@convergencelabs.com)
 RUN apk add --update supervisor tar curl nginx bash && \
     rm  -rf /tmp/* /var/cache/apk/*
 
+
+##
+## Supervisor
+##
+COPY supservisord.conf /etc/supervisord.conf
+
+
 ##
 ## Orient DB
 ##
-
 ENV ORIENTDB_VERSION 3.0.18
 ENV ORIENTDB_DOWNLOAD_MD5 7cd3b9cd476db4ceadf5203b361ccd9c
 ENV ORIENTDB_DOWNLOAD_SHA1 4a3a208530972b4230fbd9515614003d61273135
@@ -26,19 +32,17 @@ RUN mkdir /db && \
 
 COPY orientdb-server-config.xml /db/config/
 
+
 ##
 ## Proxy
 ##
-
 RUN adduser -D -g 'www' www  && \
     mkdir /www && \
     chown -R www:www /var/lib/nginx && \
     chown -R www:www /www
 
-COPY index.html /www/index.html
 COPY nginx.conf /etc/nginx/nginx.conf
 
-COPY supservisord.conf /etc/supervisord.conf
 
 ##
 ## Convergence Admin console
@@ -46,25 +50,28 @@ COPY supservisord.conf /etc/supervisord.conf
 COPY admin-console /www/console
 COPY convergence-admin-console.config.js /www/console/convergence-admin-console.config.js
 
+
 ##
 ## Convergence Client
 ##
 COPY client /www/client
+
 
 ##
 ## Convergence Client API
 ##
 COPY api /www/api
 
+
 ##
 ## Convergence Server
 ##
-
 COPY convergence-server-node.tgz /tmp/convergence-server-node.tgz
 RUN mkdir /convergence && \
     tar -zxvf /tmp/convergence-server-node.tgz -C /convergence --strip-components=1
 COPY log4j2.xml /convergence/etc/log4j2.xml
 COPY convergence-server.conf /convergence/etc/convergence-server.conf
+
 
 EXPOSE 80
 

@@ -3,16 +3,14 @@ nodePod { label ->
     container('node') {
       npmLogin()
 
+      stage('NPM Install') {
+        sh 'npm install'
+      }
 
       stage('Perpare Docker Build') {
         sh '''
-        mkdir docker-build
-        cp -a docker/* docker-build
+        cp -a docker docker-build
         '''
-      }
-
-      stage('NPM Install') {
-        sh 'npm install'
       }
 
       stage('Copy Admin Console') {
