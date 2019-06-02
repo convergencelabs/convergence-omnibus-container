@@ -1,13 +1,13 @@
 {
   "name": "@convergence-internal/convergene-de",
-  "version": "1.0.0-rc.1",
+  "version": "1.0.0-rc.3",
   "description": "The Convergence Developement Dokcer Container.",
   "author": "Convergence Labs, Inc.",
   "homepage": "http://www.convergencelabs.com",
   "private": true,
   "dependencies": {
-    "@convergence-internal/admin-console": "1.0.0-rc.1",
-    "@convergence/convergence": "1.0.0-rc.1",
+    "@convergence-internal/admin-console": "1.0.0-rc.3",
+    "@convergence/convergence": "1.0.0-rc.3",
     "rxjs": "6.4.0"
   },
   "devDependencies": {}
