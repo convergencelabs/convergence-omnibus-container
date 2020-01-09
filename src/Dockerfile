@@ -4,21 +4,20 @@ LABEL maintainer="Convergence Labs, Inc."
 
 RUN apk add --update tar curl jq
 
-ENV CONVERGENCE_VERSION 1.0.0-rc.4
-
 ENV TMPDIR=/tmp/convergence
 RUN mkdir $TMPDIR
 
 ###
 ### Convergence Client Download
 ###
+ENV CLIENT_VERSION 1.0.0-rc.4
 ENV CLIENT_NPM_PACKAGE @convergence/convergence
 ENV CLIENT_SHASUM c98e36501a23428f55127d7986b950896ea028af
 
 ENV CLIENT_TMP_DIR=$TMPDIR/client
 RUN mkdir $CLIENT_TMP_DIR
 
-RUN wget -O - https://registry.npmjs.org/$CLIENT_NPM_PACKAGE/ | jq ".versions[\"$CONVERGENCE_VERSION\"].dist" > $CLIENT_TMP_DIR/version.json
+RUN wget -O - https://registry.npmjs.org/$CLIENT_NPM_PACKAGE/ | jq ".versions[\"$CLIENT_VERSION\"].dist" > $CLIENT_TMP_DIR/version.json
 
 RUN TARBALL=`cat $CLIENT_TMP_DIR/version.json | jq .tarball -r` && \
     wget $TARBALL --output $CLIENT_TMP_DIR/convergence.tgz && \
@@ -29,13 +28,14 @@ RUN TARBALL=`cat $CLIENT_TMP_DIR/version.json | jq .tarball -r` && \
 ###
 ### Convergence Admin Console Download
 ###
+ENV CONSOLE_VERSION 1.0.0-rc.4
 ENV CONSOLE_NPM_PACKAGE @convergence/admin-console
 ENV CONSOLE_SHASUM 23caf8526eb35fe459f174dee2773a6d3ee22a06
 
 ENV CONSOLE_TMP_DIR=$TMPDIR/console
 RUN mkdir $CONSOLE_TMP_DIR
 
-RUN wget -O - https://registry.npmjs.org/$CONSOLE_NPM_PACKAGE/ | jq ".versions[\"$CONVERGENCE_VERSION\"].dist" > $CONSOLE_TMP_DIR/version.json
+RUN wget -O - https://registry.npmjs.org/$CONSOLE_NPM_PACKAGE/ | jq ".versions[\"$CONSOLE_VERSION\"].dist" > $CONSOLE_TMP_DIR/version.json
 
 RUN TARBALL=`cat $CONSOLE_TMP_DIR/version.json | jq .tarball -r` && \
     wget $TARBALL --output $CONSOLE_TMP_DIR/admin-console.tgz && \
@@ -46,11 +46,12 @@ RUN TARBALL=`cat $CONSOLE_TMP_DIR/version.json | jq .tarball -r` && \
 ##
 ## Convergence Server Download
 ##
+ENV SERVER_VERSION 1.0.0-SNAPSHOT
 ENV SERVER_TMP_DIR=$TMPDIR/server
 RUN mkdir $SERVER_TMP_DIR
 
-ENV SERVER_URL=https://nexus.dev.convergencelabs.tech/repository/maven-all/com/convergencelabs/convergence-server/$CONVERGENCE_VERSION/convergence-server-$CONVERGENCE_VERSION.tgz
-RUN curl --insecure $SERVER_URL --output $SERVER_TMP_DIR/convergence-server.tgz
+COPY download-convergence-server.sh $SERVER_TMP_DIR
+RUN chmod 755 $SERVER_TMP_DIR/download-convergence-server.sh && $SERVER_TMP_DIR/download-convergence-server.sh
 RUN mkdir $SERVER_TMP_DIR/convergence-server
 RUN tar -zxvf $SERVER_TMP_DIR/convergence-server.tgz -C $SERVER_TMP_DIR/convergence-server --strip-components=1
 
@@ -108,8 +109,8 @@ COPY --from=builder /tmp/convergence/client/package /www/client
 ## Convergence Server
 ##
 COPY --from=builder /tmp/convergence/server/convergence-server /convergence-server
-COPY log4j2.xml /convergence-server/etc/log4j2.xml
-COPY convergence-server.conf /convergence-server/etc/convergence-server.conf
+COPY log4j2.xml /convergence-server/conf/log4j2.xml
+COPY convergence-server.conf /convergence-server/conf/convergence-server.conf
 
 
 ##
