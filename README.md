@@ -1,6 +1,10 @@
-<img src="https://convergence.io/assets/img/convergence-logo.png" height="50" />
+<div align="center">
+  <img src="https://convergence.io/assets/img/convergence-logo.png" height="50" />
+</div>
 
 # Convergence Omnibus Container
+[![Build Status](https://travis-ci.org/convergencelabs/convergence-omnibus-container.svg?branch=master)](https://travis-ci.org/convergencelabs/convergence-omnibus-container)
+
 The Convergence Omnibus Container is an all-in-one version of [Convergence](https://convergence.io) which is useful for developers to use when developing Convergence based applications. It is also useful for simple, or small installations that do not require high availability.
 
 It contains the Convergence Server, the Convergence Admin Console, the Convergence Client, and an OrientDB Database.
@@ -27,10 +31,10 @@ A default Server Admin user will be created when the container first starts up. 
 
 ## Environment Variables
 The following environment variables can be used to configure the Convergence server. All environment variables are option, and reasonable defaults are supplied.
- - **CONVERGENCE_ADMIN_USERNAME**: Configures the username of the default server admin user that will be created upon startup.
- - **CONVERGENCE_ADMIN_PASSWORD**: Configures the password of the default server admin user that will be created upon startup.
- - **CONVERGENCE_ADMIN_EMAIL**: Configures the email of the default server admin user that will be created upon startup.
- - **CONVERGENCE_DEFAULT_NAMESPACE**: Configures the default namespace for the server.  Defaults to "convergence".
+ - **`CONVERGENCE_ADMIN_USERNAME`**: Configures the username of the default server admin user that will be created upon startup.
+ - **`CONVERGENCE_ADMIN_PASSWORD`**: Configures the password of the default server admin user that will be created upon startup.
+ - **`CONVERGENCE_ADMIN_EMAIL`**: Configures the email of the default server admin user that will be created upon startup.
+ - **`CONVERGENCE_DEFAULT_NAMESPACE`**: Configures the default namespace for the server.  Defaults to "convergence".
  
 ## Common Docker options 
 To run in detached mode (in a separate process): `-d`

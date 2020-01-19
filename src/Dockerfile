@@ -1,7 +1,5 @@
 FROM alpine:3.9 as builder
 
-LABEL maintainer="Convergence Labs, Inc."
-
 RUN apk add --update tar curl jq
 
 ENV TMPDIR=/tmp/convergence
@@ -10,9 +8,11 @@ RUN mkdir $TMPDIR
 ###
 ### Convergence Client Download
 ###
-ENV CLIENT_VERSION 1.0.0-rc.4
+
+## npm view @convergence/convergence to get SHASUM
+ENV CLIENT_VERSION 1.0.0-rc.5
 ENV CLIENT_NPM_PACKAGE @convergence/convergence
-ENV CLIENT_SHASUM c98e36501a23428f55127d7986b950896ea028af
+ENV CLIENT_SHASUM 533505d5c4e091fac029d63f5f741273ec6cdfac
 
 ENV CLIENT_TMP_DIR=$TMPDIR/client
 RUN mkdir $CLIENT_TMP_DIR
@@ -28,9 +28,11 @@ RUN TARBALL=`cat $CLIENT_TMP_DIR/version.json | jq .tarball -r` && \
 ###
 ### Convergence Admin Console Download
 ###
-ENV CONSOLE_VERSION 1.0.0-rc.4
+
+## npm view @convergence/admin-console to get SHASUM
+ENV CONSOLE_VERSION 1.0.0-rc.5
 ENV CONSOLE_NPM_PACKAGE @convergence/admin-console
-ENV CONSOLE_SHASUM 23caf8526eb35fe459f174dee2773a6d3ee22a06
+ENV CONSOLE_SHASUM 27ff826087885a13e03d928d331a42c0e874aaaf
 
 ENV CONSOLE_TMP_DIR=$TMPDIR/console
 RUN mkdir $CONSOLE_TMP_DIR
@@ -46,7 +48,9 @@ RUN TARBALL=`cat $CONSOLE_TMP_DIR/version.json | jq .tarball -r` && \
 ##
 ## Convergence Server Download
 ##
-ENV SERVER_VERSION 1.0.0-SNAPSHOT
+ENV SERVER_VERSION 1.0.0-rc.5
+ENV SERVER_MD5 4ee88faa8c92139f6509846eabc48191
+ENV SERVER_SHA1 821760c1f1a9403703bd5d43780ae40048e87b57
 ENV SERVER_TMP_DIR=$TMPDIR/server
 RUN mkdir $SERVER_TMP_DIR
 
@@ -63,7 +67,7 @@ ENV ORIENTDB_VERSION 3.0.26
 ENV ORIENTDB_DOWNLOAD_MD5 411b7545efb31ad91b2320ab1d5f9bc9
 ENV ORIENTDB_DOWNLOAD_SHA1 c4b2d4d95ed7730b91a3bb8145a37eecc1b51c36
 
-ENV ORIENTDB_DOWNLOAD_URL http://central.maven.org/maven2/com/orientechnologies/orientdb-community/$ORIENTDB_VERSION/orientdb-community-$ORIENTDB_VERSION.tar.gz
+ENV ORIENTDB_DOWNLOAD_URL https://repo1.maven.org/maven2/com/orientechnologies/orientdb-community/$ORIENTDB_VERSION/orientdb-community-$ORIENTDB_VERSION.tar.gz
 
 ENV ORIENTDB_TMP_DIR=$TMPDIR/orientdb
 RUN mkdir $ORIENTDB_TMP_DIR
@@ -79,7 +83,9 @@ RUN wget $ORIENTDB_DOWNLOAD_URL \
 
 FROM openjdk:12-jdk-alpine3.9
 
-RUN apk add --update supervisor nginx bash jq && \
+LABEL maintainer="Convergence Labs, Inc."
+
+RUN apk add --update supervisor nginx bash && \
     rm -rf /var/cache/apk/*
 
 ##
