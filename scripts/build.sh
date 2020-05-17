@@ -1,4 +1,4 @@
 #!/usr/bin/env sh
 
 # Run the docker build
-docker build --squash -t convergencelabs/convergence-omnibus src
+docker build --squash --no-cache -t convergencelabs/convergence-omnibus src

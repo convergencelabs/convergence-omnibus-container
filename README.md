@@ -45,6 +45,7 @@ Give the container a name: `--name convergence`  This allows commands like `dock
 
 - Please use the [Discourse Forum](https://forum.convergence.io) for general and technical questions, so the whole community can benefit.
 - For paid dedicated support or custom development services, [contact us](https://convergence.io/contact-sales/) directly.
+- Chat with us on the [Convergence Public Slack](https://slack.convergence.io).
 - Email <support@convergencelabs.com> for all other inquiries.
 
 ## License
