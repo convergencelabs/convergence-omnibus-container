@@ -48,7 +48,7 @@ RUN TARBALL=`cat $CONSOLE_TMP_DIR/version.json | jq .tarball -r` && \
 ##
 ## Convergence Server Download
 ##
-ENV SERVER_VERSION 1.0.0-rc.6.1
+ENV SERVER_VERSION 1.0.0-SNAPSHOT
 ENV SERVER_MD5 8026610de26b9017aae0a97e716d5a3b
 ENV SERVER_SHA1 c78a0157a6e3ddc5da51410e48d9bec8d4cdc262
 ENV SERVER_TMP_DIR=$TMPDIR/server
