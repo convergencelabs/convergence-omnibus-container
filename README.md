@@ -19,11 +19,11 @@ docker run -p "8000:80" convergencelabs/convergence-omnibus
 ```
 
 ### URLS
-Once started serveral servrices will be available under `http://localhost:8000/` (replace port and hostname as required):
+Once started several services will be available under `http://localhost:8000/` (replace port and hostname as required):
 - The Convergence Admin Console will be available at: `http://localhost:8000/`.
 - The REST API will be available at: `http://localhost:8000/rest/`.
 - The Realtime API will be available at: `http://localhost:8000/realtime/`. 
-- The JavaScript API Documnetation will be available at `http://localhost:8000/api/`.  
+- The JavaScript API Documentation will be available at `http://localhost:8000/api/`.  
 - The various client builds will available at `http://localhost:8000/client/`.
 
 ### Default Credentials
@@ -34,11 +34,19 @@ The following environment variables can be used to configure the Convergence ser
  - **`CONVERGENCE_ADMIN_USERNAME`**: Configures the username of the default server admin user that will be created upon startup.
  - **`CONVERGENCE_ADMIN_PASSWORD`**: Configures the password of the default server admin user that will be created upon startup.
  - **`CONVERGENCE_ADMIN_EMAIL`**: Configures the email of the default server admin user that will be created upon startup.
+ - **`CONVERGENCE_ADMIN_DISPLAY_NAME`**: Configures the display name of the default server admin user that will be created upon startup.
  - **`CONVERGENCE_DEFAULT_NAMESPACE`**: Configures the default namespace for the server.  Defaults to "convergence".
+ - **`CONVERGENCE_DEFAULT_DOMAIN_ID`**: Configures the id of the default domain that will be created.  Defaults to `default`.
+ - **`CONVERGENCE_DEFAULT_DOMAIN_DISPLAY_NAME`**: Configures the display name of the default domain that will be created.  Defaults to `Default`.
+ - **`EXTERNAL_REMOTTING_PORT`**: Configures the port that Akka remoting is reachable on outside of the container. Useful if behind a proxy.  Defaults to `25520`.
+ - **`EXTERNAL_REMOTTING_HOSTNAME`**: Configures the hostname that Akka remoting is reachable on outside of the container. Useful if behind a proxy.  Defaults to `localhost`.
  
 ## Common Docker options 
 To run in detached mode (in a separate process): `-d`
 Give the container a name: `--name convergence`  This allows commands like `docker logs -f convergence` 
+
+## Persistent Data 
+Convergence stores data in an OrientDB instance that runs inside the container. A Docker volume is defined at `/orientdb/databases` to persist the data. You can create a named or host mapped volume there if you wish to persist the data outside of the container.
 
 ## Support
 [Convergence Labs](https://convergencelabs.com) provides several different channels for support:

@@ -10,9 +10,9 @@ RUN mkdir $TMPDIR
 ###
 
 ## npm view @convergence/convergence to get SHASUM
-ENV CLIENT_VERSION 1.0.0-rc.6
+ENV CLIENT_VERSION 1.0.0-rc.7
 ENV CLIENT_NPM_PACKAGE @convergence/convergence
-ENV CLIENT_SHASUM 86565a9e65d06f024550c46ad6d35cdee7b5fe0c
+ENV CLIENT_SHASUM 1b68fbb952b12c1daf956039691cbd46904337f3
 
 ENV CLIENT_TMP_DIR=$TMPDIR/client
 RUN mkdir $CLIENT_TMP_DIR
@@ -30,9 +30,9 @@ RUN TARBALL=`cat $CLIENT_TMP_DIR/version.json | jq .tarball -r` && \
 ###
 
 ## npm view @convergence/admin-console to get SHASUM
-ENV CONSOLE_VERSION 1.0.0-rc.6
+ENV CONSOLE_VERSION 1.0.0-rc.7
 ENV CONSOLE_NPM_PACKAGE @convergence/admin-console
-ENV CONSOLE_SHASUM 66f82356a07b8870f690273f74c298f5440882e7
+ENV CONSOLE_SHASUM d7e8436d5865812ed684719f6fb73868a9837fb8
 
 ENV CONSOLE_TMP_DIR=$TMPDIR/console
 RUN mkdir $CONSOLE_TMP_DIR
@@ -48,9 +48,9 @@ RUN TARBALL=`cat $CONSOLE_TMP_DIR/version.json | jq .tarball -r` && \
 ##
 ## Convergence Server Download
 ##
-ENV SERVER_VERSION 1.0.0-SNAPSHOT
-ENV SERVER_MD5 8026610de26b9017aae0a97e716d5a3b
-ENV SERVER_SHA1 c78a0157a6e3ddc5da51410e48d9bec8d4cdc262
+ENV SERVER_VERSION 1.0.0-rc.7
+ENV SERVER_MD5 b2fdd4b79a3cf6243b05d4bb03ea92e3
+ENV SERVER_SHA1 6ae601b469ab7466b11e5eced32068e37c4e7250
 ENV SERVER_TMP_DIR=$TMPDIR/server
 RUN mkdir $SERVER_TMP_DIR
 
@@ -63,9 +63,9 @@ RUN tar -zxvf $SERVER_TMP_DIR/convergence-server.tgz -C $SERVER_TMP_DIR/converge
 ##
 ## Orient DB Download
 ##
-ENV ORIENTDB_VERSION 3.0.30
-ENV ORIENTDB_DOWNLOAD_MD5 6929cf30ba4485ddd6dd6b6f924d10fe
-ENV ORIENTDB_DOWNLOAD_SHA1 cd864c8ccc5bb06c2a8516565b6f10e78ce99c49
+ENV ORIENTDB_VERSION 3.0.31
+ENV ORIENTDB_DOWNLOAD_MD5 c37f5fd887ef552d1673af3a754a7bf8
+ENV ORIENTDB_DOWNLOAD_SHA1 08f2b6dfcfdcd33bbe9f2be8c50be8c1f507efff
 
 ENV ORIENTDB_DOWNLOAD_URL https://repo1.maven.org/maven2/com/orientechnologies/orientdb-community/$ORIENTDB_VERSION/orientdb-community-$ORIENTDB_VERSION.tar.gz
 
@@ -135,5 +135,6 @@ COPY nginx.conf /etc/nginx/nginx.conf
 COPY supservisord.conf /etc/supervisord.conf
 
 EXPOSE 80
+EXPOSE 25520
 
 CMD ["supervisord", "--nodaemon", "--configuration", "/etc/supervisord.conf"]
