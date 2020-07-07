@@ -38,8 +38,8 @@ The following environment variables can be used to configure the Convergence ser
  - **`CONVERGENCE_DEFAULT_NAMESPACE`**: Configures the default namespace for the server.  Defaults to "convergence".
  - **`CONVERGENCE_DEFAULT_DOMAIN_ID`**: Configures the id of the default domain that will be created.  Defaults to `default`.
  - **`CONVERGENCE_DEFAULT_DOMAIN_DISPLAY_NAME`**: Configures the display name of the default domain that will be created.  Defaults to `Default`.
- - **`EXTERNAL_REMOTTING_PORT`**: Configures the port that Akka remoting is reachable on outside of the container. Useful if behind a proxy.  Defaults to `25520`.
- - **`EXTERNAL_REMOTTING_HOSTNAME`**: Configures the hostname that Akka remoting is reachable on outside of the container. Useful if behind a proxy.  Defaults to `localhost`.
+ - **`EXTERNAL_REMOTING_PORT`**: Configures the port that Akka remoting is reachable on outside of the container. Useful if behind a proxy.  Defaults to `25520`.
+ - **`EXTERNAL_REMOTING_HOSTNAME`**: Configures the hostname that Akka remoting is reachable on outside of the container. Useful if behind a proxy.  Defaults to `localhost`.
  
 ## Common Docker options 
 To run in detached mode (in a separate process): `-d`
