@@ -10,9 +10,9 @@ RUN mkdir $TMPDIR
 ###
 
 ## npm view @convergence/convergence to get SHASUM
-ENV CLIENT_VERSION 1.0.0-rc.7
+ENV CLIENT_VERSION 1.0.0-rc.8
 ENV CLIENT_NPM_PACKAGE @convergence/convergence
-ENV CLIENT_SHASUM 1b68fbb952b12c1daf956039691cbd46904337f3
+ENV CLIENT_SHASUM 04c8e4a2d4f8195b3223da8d44a2ad97c1a7a40e
 
 ENV CLIENT_TMP_DIR=$TMPDIR/client
 RUN mkdir $CLIENT_TMP_DIR
@@ -30,9 +30,9 @@ RUN TARBALL=`cat $CLIENT_TMP_DIR/version.json | jq .tarball -r` && \
 ###
 
 ## npm view @convergence/admin-console to get SHASUM
-ENV CONSOLE_VERSION 1.0.0-rc.7
+ENV CONSOLE_VERSION 1.0.0-rc.8
 ENV CONSOLE_NPM_PACKAGE @convergence/admin-console
-ENV CONSOLE_SHASUM d7e8436d5865812ed684719f6fb73868a9837fb8
+ENV CONSOLE_SHASUM 4e471a84dc19d79e41133a5683097f380cf32279
 
 ENV CONSOLE_TMP_DIR=$TMPDIR/console
 RUN mkdir $CONSOLE_TMP_DIR
@@ -48,9 +48,9 @@ RUN TARBALL=`cat $CONSOLE_TMP_DIR/version.json | jq .tarball -r` && \
 ##
 ## Convergence Server Download
 ##
-ENV SERVER_VERSION 1.0.0-rc.7
-ENV SERVER_MD5 b2fdd4b79a3cf6243b05d4bb03ea92e3
-ENV SERVER_SHA1 6ae601b469ab7466b11e5eced32068e37c4e7250
+ENV SERVER_VERSION 1.0.0-rc.8
+ENV SERVER_MD5 62aeea0ded9338b1bd88b4fe6ccea3fb
+ENV SERVER_SHA1 a52b2be24df7c017e315acf92b7a0d1f4b0db116
 ENV SERVER_TMP_DIR=$TMPDIR/server
 RUN mkdir $SERVER_TMP_DIR
 
@@ -63,9 +63,9 @@ RUN tar -zxvf $SERVER_TMP_DIR/convergence-server.tgz -C $SERVER_TMP_DIR/converge
 ##
 ## Orient DB Download
 ##
-ENV ORIENTDB_VERSION 3.0.31
-ENV ORIENTDB_DOWNLOAD_MD5 c37f5fd887ef552d1673af3a754a7bf8
-ENV ORIENTDB_DOWNLOAD_SHA1 08f2b6dfcfdcd33bbe9f2be8c50be8c1f507efff
+ENV ORIENTDB_VERSION 3.0.37
+ENV ORIENTDB_DOWNLOAD_MD5 da01fdb3fae076fca4879b563b4b8f53
+ENV ORIENTDB_DOWNLOAD_SHA1 0f7ac76daf691b4723bde9cfbe637c3ef36b3657
 
 ENV ORIENTDB_DOWNLOAD_URL https://repo1.maven.org/maven2/com/orientechnologies/orientdb-community/$ORIENTDB_VERSION/orientdb-community-$ORIENTDB_VERSION.tar.gz
 
