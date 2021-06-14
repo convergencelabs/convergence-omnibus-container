@@ -81,12 +81,14 @@ RUN wget $ORIENTDB_DOWNLOAD_URL \
   && rm -rf $ORIENTDB_TMP_DIR/databases/*
 
 
-FROM openjdk:12-jdk-alpine3.9
+# there is no docker container with jdk 12 for arm. Don't know why.
+FROM adoptopenjdk:14-jre-hotspot
 
 LABEL maintainer="Convergence Labs, Inc."
 
-RUN apk add --update supervisor nginx bash && \
-    rm -rf /var/cache/apk/*
+RUN apt-get update && \
+    apt-get -y install nginx supervisor && \
+    rm -rf /var/lib/apt/lists/*
 
 ##
 ## Orient DB
@@ -122,7 +124,8 @@ COPY convergence-server.conf /convergence-server/conf/convergence-server.conf
 ##
 ## Proxy
 ##
-RUN adduser -D -g 'www' www  && \
+#RUN adduser www  && \
+RUN adduser --disabled-password --gecos "" --no-create-home --disabled-login www && \
     chown -R www:www /var/lib/nginx && \
     chown -R www:www /www
 
@@ -133,6 +136,9 @@ COPY nginx.conf /etc/nginx/nginx.conf
 ## Supervisor
 ##
 COPY supservisord.conf /etc/supervisord.conf
+
+# Fixes
+RUN sed -i 's/armv6l/armv7l/g' /orientdb/bin/server.sh
 
 EXPOSE 80
 EXPOSE 25520

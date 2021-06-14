@@ -144,5 +144,12 @@
         <!-- PROFILER: configures the profiler as <seconds-for-snapshot>,<archive-snapshot-size>,<summary-size> -->
         <entry name="profiler.enabled" value="false"/>
         <!-- <entry name="profiler.config" value="30,10,10" /> -->
+        <entry name="memory.chunk.size" value="10485760"/> <!-- 10 MB instead of 2GB -->
+        <entry name="memory.leftToOS" value="80%"/> <!-- 80% instead of 20% -->
+        <entry name="memory.leftToContainer" value="80%"/> <!-- 80% instead of 20% -->
+        <entry name="memory.pool.limit" value="209715200"/> <!-- 200 MB instead of 2GB -->
+        <entry name="sbtreebonsai.linkBagCache.size" value="1000"/> <!-- 1000 instead of 100000 -->
+        <entry name="sbtreebonsai.linkBagCache.evictionSize" value="100"/> <!-- 100 instead of 1000 -->
+        <entry name="ridBag.embeddedToSbtreeBonsaiThreshold" value="-1"/> <!-- always use sb tree -->
     </properties>
 </orient-server>
