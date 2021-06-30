@@ -10,9 +10,9 @@ RUN mkdir $TMPDIR
 ###
 
 ## npm view @convergence/convergence to get SHASUM
-ENV CLIENT_VERSION 1.0.0-rc.8
+ENV CLIENT_VERSION 1.0.0-rc.9
 ENV CLIENT_NPM_PACKAGE @convergence/convergence
-ENV CLIENT_SHASUM 04c8e4a2d4f8195b3223da8d44a2ad97c1a7a40e
+ENV CLIENT_SHASUM 5819fef071d1d16b3f49850f0b513faae5520bc3
 
 ENV CLIENT_TMP_DIR=$TMPDIR/client
 RUN mkdir $CLIENT_TMP_DIR
@@ -30,9 +30,9 @@ RUN TARBALL=`cat $CLIENT_TMP_DIR/version.json | jq .tarball -r` && \
 ###
 
 ## npm view @convergence/admin-console to get SHASUM
-ENV CONSOLE_VERSION 1.0.0-rc.8
+ENV CONSOLE_VERSION 1.0.0-rc.9
 ENV CONSOLE_NPM_PACKAGE @convergence/admin-console
-ENV CONSOLE_SHASUM 4e471a84dc19d79e41133a5683097f380cf32279
+ENV CONSOLE_SHASUM f9cf1155f07366e0bf3bfc52ff525e147ed36c9f
 
 ENV CONSOLE_TMP_DIR=$TMPDIR/console
 RUN mkdir $CONSOLE_TMP_DIR
@@ -48,9 +48,9 @@ RUN TARBALL=`cat $CONSOLE_TMP_DIR/version.json | jq .tarball -r` && \
 ##
 ## Convergence Server Download
 ##
-ENV SERVER_VERSION 1.0.0-rc.8
-ENV SERVER_MD5 62aeea0ded9338b1bd88b4fe6ccea3fb
-ENV SERVER_SHA1 a52b2be24df7c017e315acf92b7a0d1f4b0db116
+ENV SERVER_VERSION 1.0.0-rc.9
+ENV SERVER_MD5 f593485b8cadedf9c37b382677a68c2d
+ENV SERVER_SHA1 a999f942e66a452bf17ddb1dbea44c8ced86b241
 ENV SERVER_TMP_DIR=$TMPDIR/server
 RUN mkdir $SERVER_TMP_DIR
 

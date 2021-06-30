@@ -3,16 +3,16 @@
 set -e
 
 # Configs
-SNAPSHPOT_REPO_URL=https://oss.sonatype.org/content/repositories/snapshots
+SNAPSHOT_REPO_URL=https://oss.sonatype.org/content/repositories/snapshots
 RELEASE_REPO_URL=https://repo1.maven.org/maven2
-REALTIVE_URL=com/convergencelabs/convergence-server-universal/$SERVER_VERSION/convergence-server-universal-$SERVER_VERSION.tgz
+RELATIVE_URL=com/convergencelabs/convergence-server-universal/$SERVER_VERSION/convergence-server-universal-$SERVER_VERSION.tgz
 
 case "$SERVER_VERSION" in
-    *SNAPSHOT* ) REPO_BASE_URL=$SNAPSHPOT_REPO_URL;;
+    *SNAPSHOT* ) REPO_BASE_URL=$SNAPSHOT_REPO_URL;;
     * ) REPO_BASE_URL=$RELEASE_REPO_URL;;
 esac
 
-SERVER_URL=$REPO_BASE_URL/$REALTIVE_URL
+SERVER_URL=$REPO_BASE_URL/$RELATIVE_URL
 echo "Downloading the Convergence Server Universal Distribution $SERVER_VERSION from: $DOWNLOAD_URL"
 curl --insecure $SERVER_URL --output $SERVER_TMP_DIR/convergence-server.tgz
 
