@@ -10,9 +10,9 @@ RUN mkdir $TMPDIR
 ###
 
 ## npm view @convergence/convergence to get SHASUM
-ENV CLIENT_VERSION 1.0.0-rc.9
+ENV CLIENT_VERSION 1.0.0-rc.11
 ENV CLIENT_NPM_PACKAGE @convergence/convergence
-ENV CLIENT_SHASUM 5819fef071d1d16b3f49850f0b513faae5520bc3
+ENV CLIENT_SHASUM 4703639ac29a918ecdb5c66575c0c56f6f5b1ee4
 
 ENV CLIENT_TMP_DIR=$TMPDIR/client
 RUN mkdir $CLIENT_TMP_DIR
@@ -30,9 +30,9 @@ RUN TARBALL=`cat $CLIENT_TMP_DIR/version.json | jq .tarball -r` && \
 ###
 
 ## npm view @convergence/admin-console to get SHASUM
-ENV CONSOLE_VERSION 1.0.0-rc.9
+ENV CONSOLE_VERSION 1.0.0-rc.11
 ENV CONSOLE_NPM_PACKAGE @convergence/admin-console
-ENV CONSOLE_SHASUM f9cf1155f07366e0bf3bfc52ff525e147ed36c9f
+ENV CONSOLE_SHASUM 7b0a0f08fae18fc3772b5a17fc158200ec03a385
 
 ENV CONSOLE_TMP_DIR=$TMPDIR/console
 RUN mkdir $CONSOLE_TMP_DIR
@@ -48,9 +48,9 @@ RUN TARBALL=`cat $CONSOLE_TMP_DIR/version.json | jq .tarball -r` && \
 ##
 ## Convergence Server Download
 ##
-ENV SERVER_VERSION 1.0.0-rc.9
-ENV SERVER_MD5 f593485b8cadedf9c37b382677a68c2d
-ENV SERVER_SHA1 a999f942e66a452bf17ddb1dbea44c8ced86b241
+ENV SERVER_VERSION 1.0.0-rc.11
+ENV SERVER_MD5 02191ab6625f3d442906baafd35eea96
+ENV SERVER_SHA1 f343616178ca6f158af0a2baa2afd076e44abab4
 ENV SERVER_TMP_DIR=$TMPDIR/server
 RUN mkdir $SERVER_TMP_DIR
 
@@ -85,17 +85,20 @@ FROM openjdk:12-jdk-alpine3.9
 
 LABEL maintainer="Convergence Labs, Inc."
 
+
+RUN addgroup -S convergence && adduser -S convergence -G convergence
+
 RUN apk add --update supervisor nginx bash && \
     rm -rf /var/cache/apk/*
 
 ##
 ## Orient DB
 ##
+VOLUME /orientdb/databases
+
 COPY --from=builder /tmp/convergence/orientdb /orientdb
 COPY orientdb-server-config.xml /orientdb/config/
-RUN chown root:root /orientdb
-
-VOLUME /orientdb/databases
+RUN chown -RL convergence:convergence /orientdb
 
 
 ##
@@ -117,14 +120,15 @@ COPY --from=builder /tmp/convergence/client/package /www/client
 COPY --from=builder /tmp/convergence/server/convergence-server /convergence-server
 COPY log4j2.xml /convergence-server/conf/log4j2.xml
 COPY convergence-server.conf /convergence-server/conf/convergence-server.conf
+RUN chown -RL convergence:convergence /convergence-server
 
 
 ##
 ## Proxy
 ##
-RUN adduser -D -g 'www' www  && \
-    chown -R www:www /var/lib/nginx && \
-    chown -R www:www /www
+RUN mkdir /run/nginx && \
+    chown -RL convergence:convergence /var/lib/nginx && \
+    chown -R convergence:convergence /www
 
 COPY nginx.conf /etc/nginx/nginx.conf
 
@@ -133,6 +137,9 @@ COPY nginx.conf /etc/nginx/nginx.conf
 ## Supervisor
 ##
 COPY supservisord.conf /etc/supervisord.conf
+RUN mkdir /supservisord && chown -R convergence:convergence /supservisord
+
+USER convergence
 
 EXPOSE 80
 EXPOSE 25520
