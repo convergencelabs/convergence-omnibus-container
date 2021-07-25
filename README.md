@@ -1,9 +1,7 @@
-<div align="center">
-  <img src="https://convergence.io/assets/img/convergence-logo.png" height="50" />
-</div>
+<img src="https://convergence.io/assets/img/convergence-logo.png" height="50" />
 
 # Convergence Omnibus Container
-[![Build Status](https://travis-ci.org/convergencelabs/convergence-omnibus-container.svg?branch=master)](https://travis-ci.org/convergencelabs/convergence-omnibus-container)
+[![Build](https://github.com/convergencelabs/convergence-omnibus-container/actions/workflows/build.yml/badge.svg)](https://github.com/convergencelabs/convergence-omnibus-container/actions/workflows/build.yml)
 
 The Convergence Omnibus Container is an all-in-one version of [Convergence](https://convergence.io) which is useful for developers to use when developing Convergence based applications. It is also useful for simple, or small installations that do not require high availability.
 
@@ -40,13 +38,21 @@ The following environment variables can be used to configure the Convergence ser
  - **`CONVERGENCE_DEFAULT_DOMAIN_DISPLAY_NAME`**: Configures the display name of the default domain that will be created.  Defaults to `Default`.
  - **`EXTERNAL_REMOTING_PORT`**: Configures the port that Akka remoting is reachable on outside of the container. Useful if behind a proxy.  Defaults to `25520`.
  - **`EXTERNAL_REMOTING_HOSTNAME`**: Configures the hostname that Akka remoting is reachable on outside of the container. Useful if behind a proxy.  Defaults to `localhost`.
+ - **`HTTP_PORT`**: Configures the HTTP port the built-in NGINX server will listen on. Defaults to `80`.
  
 ## Common Docker options 
 To run in detached mode (in a separate process): `-d`
 Give the container a name: `--name convergence`  This allows commands like `docker logs -f convergence` 
 
 ## Persistent Data 
-Convergence stores data in an OrientDB instance that runs inside the container. A Docker volume is defined at `/orientdb/databases` to persist the data. You can create a named or host mapped volume there if you wish to persist the data outside of the container.
+Convergence stores data in an OrientDB instance that runs inside the container. A Docker volume is defined at `/orientdb/databases` to persist the data. You can create a named or host mapped volume there if you wish to persist the data outside of the container. For examle:
+
+```shell
+docker run \
+  -p "8000:80" \
+  -v ${PWD}/databases:/orientdb/databases \
+  convergencelabs/convergence-omnibus
+```
 
 ## Support
 [Convergence Labs](https://convergencelabs.com) provides several different channels for support:

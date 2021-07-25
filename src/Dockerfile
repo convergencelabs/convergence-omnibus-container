@@ -81,25 +81,26 @@ RUN wget $ORIENTDB_DOWNLOAD_URL \
   && rm -rf $ORIENTDB_TMP_DIR/databases/*
 
 
-FROM openjdk:12-jdk-alpine3.9
+FROM adoptopenjdk/openjdk11:jdk-11.0.11_9-alpine
 
 LABEL maintainer="Convergence Labs, Inc."
 
-
 RUN addgroup -S convergence && adduser -S convergence -G convergence
 
-RUN apk add --update supervisor nginx bash && \
-    rm -rf /var/cache/apk/*
+RUN apk --no-cache --update add \
+      supervisor \
+      nginx \
+      bash \
+      gettext
 
 ##
 ## Orient DB
 ##
-VOLUME /orientdb/databases
-
 COPY --from=builder /tmp/convergence/orientdb /orientdb
 COPY orientdb-server-config.xml /orientdb/config/
 RUN chown -RL convergence:convergence /orientdb
 
+VOLUME /orientdb/database
 
 ##
 ## Convergence Admin console
@@ -126,22 +127,32 @@ RUN chown -RL convergence:convergence /convergence-server
 ##
 ## Proxy
 ##
-RUN mkdir /run/nginx && \
+COPY nginx.conf /etc/nginx/nginx.conf.template
+RUN mkdir -p /run/nginx && \
+    mkdir -p /var/tmp/nginx/client_body && \
+    chown -RL convergence:convergence /var/tmp/nginx/client_body && \
     chown -RL convergence:convergence /var/lib/nginx && \
-    chown -R convergence:convergence /www
-
-COPY nginx.conf /etc/nginx/nginx.conf
+    chown -R convergence:convergence /www && \
+    chown -R convergence:convergence /etc/nginx/nginx.conf
 
 
 ##
 ## Supervisor
 ##
 COPY supservisord.conf /etc/supervisord.conf
-RUN mkdir /supservisord && chown -R convergence:convergence /supservisord
+RUN mkdir /supservisord && \
+    chown -R convergence:convergence /supservisord
+
+
+##
+## Boot Script
+##
+COPY boot.sh /boot.sh
+RUN chmod 755 /boot.sh && \
+    chown convergence:convergence /boot.sh
 
 USER convergence
 
 EXPOSE 80
-EXPOSE 25520
 
-CMD ["supervisord", "--nodaemon", "--configuration", "/etc/supervisord.conf"]
+CMD ["./boot.sh"]
